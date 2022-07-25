@@ -1,0 +1,30 @@
+{
+  "name": "a11y",
+  "version": "1.0.0",
+  "description": "A concrete example of a website written for accessibility, following best practices.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichalBurzynski89/a11y.git"
+  },
+  "keywords": [
+    "a11y",
+    "accessibility",
+    "travel",
+    "insurance",
+    "damage",
+    "report"
+  ],
+  "author": "Michał Burzyński",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MichalBurzynski89/a11y/issues"
+  },
+  "homepage": "https://github.com/MichalBurzynski89/a11y#readme",
+  "devDependencies": {
+    "eslint": "^8.20.0"
+  }
+}
