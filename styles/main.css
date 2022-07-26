@@ -2,7 +2,7 @@
 
 :root {
   --primary-color: #da4b4b;
-  --secondary-color: #f3f0f0;
+  --secondary-color: #eeeeee;
   --black-color: #000000;
   --hover-brightness: 110%;
 }
@@ -159,11 +159,11 @@ body {
 
 .main {
   margin-top: 6rem;
-  padding: 0 4rem;
 }
 
 .section {
   margin-bottom: 6rem;
+  padding: 0 4rem;
 }
 
 .section:nth-child(2) {
@@ -220,18 +220,7 @@ body {
 
 .section-gray {
   background-color: var(--secondary-color);
-  padding: 6rem;
-  position: relative;
-}
-
-.section-gray::before,
-.section-gray::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  width: 4rem;
-  height: 100%;
-  background-color: inherit;
+  padding: 6rem 10rem;
 }
 
 .section-gray::before {
@@ -320,7 +309,7 @@ body {
   }
 
   .section-gray {
-    padding: 3rem 2rem;
+    padding: 3rem;
   }
 
   .section-gray > .quote.text-enlarged {
