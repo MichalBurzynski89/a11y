@@ -1,7 +1,7 @@
 /*** VARIABLES ***/
 
 :root {
-  --primary-color: #da4b4b;
+  --primary-color: #e05353;
   --secondary-color: #eeeeee;
   --black-color: #000000;
   --white-color: #ffffff;
@@ -91,6 +91,14 @@ body {
   text-align: center;
 }
 
+.text-shadow {
+  text-shadow: 2px 2px 4px var(--white-color);
+}
+
+.text-white {
+  color: var(--white-color);
+}
+
 /*** BUTTONS ***/
 
 .btn {
@@ -161,8 +169,22 @@ body {
 }
 
 .header-main-content {
-  background-color: var(--secondary-color);
+  background-image: url('../images/travel.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   height: 40rem;
+  position: relative;
+}
+
+.header-main-content > .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--secondary-color);
+  opacity: 0.1;
 }
 
 .header-main-content > h1 {
@@ -172,6 +194,13 @@ body {
 .header-main-content > p {
   max-width: 50%;
   margin-bottom: 1.5rem;
+}
+
+.header-main-content > h1,
+.header-main-content > p,
+.header-main-content > .btn {
+  position: relative;
+  z-index: 1;
 }
 
 /*** MAIN ***/
@@ -399,7 +428,6 @@ body {
 @media screen and (max-width: 647px) {
   .footer-links-container {
     flex-direction: column;
-    align-items: center;
   }
 
   .footer-links-column:not(:last-child) {
