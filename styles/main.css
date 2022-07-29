@@ -371,6 +371,38 @@ body {
   margin-bottom: 1.25rem;
 }
 
+.main.claim-report > .form {
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 3rem;
+  margin-top: 2rem;
+}
+
+.main.claim-report .form-control {
+  align-items: flex-start;
+}
+
+.main.claim-report .form-control:not(:last-child) {
+  margin-bottom: 1.25rem;
+}
+
+.main.claim-report .form-control > label {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.main.claim-report .form-control > input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--black-color);
+}
+
+.main.claim-report #submit-button {
+  display: block;
+  margin-left: auto;
+  min-width: 220px;
+}
+
 /*** MEDIA QUERIES ***/
 
 @media screen and (min-width: 1315px) {
@@ -386,6 +418,10 @@ body {
     margin-bottom: 0;
     margin-right: 1.25rem;
   }
+
+  .main.claim-report > .form {
+    margin-top: 5rem;
+  }
 }
 
 @media screen and (min-width: 1200px) {
@@ -394,9 +430,23 @@ body {
   }
 }
 
+@media screen and (min-width: 768px) {
+  .main.claim-report > .form {
+    padding: 0 6rem;
+  }
+
+  .main.claim-report .form-control:not(:last-child) {
+    margin-bottom: 1.75rem;
+  }
+}
+
 @media screen and (min-width: 400px) {
   .main.claim-report > .nav-tabs > .btn {
     width: 340px;
+  }
+
+  .main.claim-report .form-control > input {
+    padding: 1rem;
   }
 }
 
@@ -474,6 +524,10 @@ body {
 
   .section-gray > .quote.text-enlarged {
     font-size: 1.25rem;
+  }
+
+  .main.claim-report #submit-button {
+    width: 100%;
   }
 }
 
