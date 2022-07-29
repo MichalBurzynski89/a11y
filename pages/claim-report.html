@@ -54,36 +54,23 @@
       <main class="main claim-report flex-column justify-content-center">
         <h1 class="heading-1">Claim Report</h1>
         <div
-          class="nav-tabs flex-column"
-          role="tablist"
-          aria-label="Tabs for moving between the different stages of the form"
+          class="progress-indicator flex-column"
+          role="group"
+          aria-label="Progress indicator"
         >
-          <button
-            class="btn btn-primary btn-rounded"
-            role="tab"
-            aria-selected="true"
-            tabindex="0"
+          <span
+            class="step step-current step-rounded"
+            aria-current="step"
+            tabindex="-1"
           >
             Step 1 - Personal Details
-          </button>
-          <button
-            class="btn btn-primary btn-rounded"
-            role="tab"
-            aria-selected="false"
-            tabindex="-1"
-            disabled
-          >
+          </span>
+          <span class="step step-rounded" tabindex="-1">
             Step 2 - Incident Details
-          </button>
-          <button
-            class="btn btn-primary btn-rounded"
-            role="tab"
-            aria-selected="false"
-            tabindex="-1"
-            disabled
-          >
+          </span>
+          <span class="step step-rounded" tabindex="-1">
             Step 3 - Expense Report
-          </button>
+          </span>
         </div>
 
         <form class="form" id="claim-report-form"></form>
