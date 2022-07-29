@@ -6,6 +6,7 @@
   --black-color: #000000;
   --white-color: #ffffff;
   --gray-color: #ababab;
+  --input-background-color: #f4f4f4;
   --hover-brightness: 110%;
 }
 
@@ -395,7 +396,7 @@ body {
   width: 100%;
   padding: 0.5rem 1rem;
   border: 1px solid var(--black-color);
-  background-color: var(--secondary-color);
+  background-color: var(--input-background-color);
 }
 
 .main.claim-report #submit-button {
