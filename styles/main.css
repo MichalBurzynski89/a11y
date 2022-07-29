@@ -141,6 +141,10 @@ body {
   cursor: default;
 }
 
+.btn-rounded {
+  border-radius: 16px;
+}
+
 /*** HEADER ***/
 
 .navigation {
