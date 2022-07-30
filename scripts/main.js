@@ -1,7 +1,7 @@
 const getById = (id) => document.getElementById(id);
 
 window.addEventListener('DOMContentLoaded', () => {
-  const personalDetailsHtml = `
+  const personalDetailsHTML = `
     <div class="form-control flex-column">
       <label for="first-name">
         First name
