@@ -71,6 +71,10 @@ body {
   font-size: 1.25rem;
 }
 
+.heading-2-extra-small {
+  font-size: 1rem;
+}
+
 .heading-3 {
   font-size: 1.125rem;
   font-weight: 700;
@@ -388,6 +392,15 @@ body {
   margin-top: 2rem;
 }
 
+.main.claim-report > .form > fieldset {
+  border: none;
+  margin-bottom: 1.25rem;
+}
+
+.main.claim-report > .form > fieldset > legend {
+  margin-bottom: 1.5rem;
+}
+
 .main.claim-report .form-control {
   align-items: flex-start;
 }
@@ -396,19 +409,32 @@ body {
   margin-bottom: 1.25rem;
 }
 
-.main.claim-report .form-control > label {
+.main.claim-report .form-control > label:not(.radio-label) {
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
-.main.claim-report .form-control > input {
+.main.claim-report .form-control > input:not([type='radio']),
+textarea {
   width: 100%;
   padding: 0.5rem 1rem;
   border: 1px solid var(--black-color);
   background-color: var(--input-background-color);
+  resize: none;
 }
 
-.main.claim-report #submit-button {
+.main.claim-report .form-control > input[type='radio'] {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.main.claim-report .form-control > label.radio-label {
+  margin-left: 0.75rem;
+  vertical-align: 6px;
+}
+
+.main.claim-report #submit-button,
+#return-button {
   display: block;
   margin-left: auto;
   min-width: 220px;
@@ -441,6 +467,17 @@ body {
   }
 }
 
+@media screen and (min-width: 800px) {
+  .main.claim-report .form-buttons {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .main.claim-report .form-buttons > #return-button {
+    margin-left: 0;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .main.claim-report > .form {
     padding: 0 6rem;
@@ -456,7 +493,7 @@ body {
     width: 340px;
   }
 
-  .main.claim-report .form-control > input {
+  .main.claim-report .form-control > input:not([type='radio']) {
     padding: 1rem;
   }
 }
@@ -537,8 +574,13 @@ body {
     font-size: 1.25rem;
   }
 
-  .main.claim-report #submit-button {
+  .main.claim-report #submit-button,
+  #return-button {
     width: 100%;
+  }
+
+  .main.claim-report #return-button {
+    margin-bottom: 0.75rem;
   }
 }
 

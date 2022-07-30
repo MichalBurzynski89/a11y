@@ -51,6 +51,89 @@ window.addEventListener('DOMContentLoaded', () => {
     </button>
   `;
 
+  const incidentDetailsHTML = `
+    <fieldset>
+      <legend class="text-bold">
+        Purpose of Travel
+      </legend>
+      <div class="form-control">
+        <input
+          type="radio" id="purpose-choice-1" name="travel-purpose"
+          value="tourism" checked
+        />
+        <label for="purpose-choice-1" class="radio-label">
+          tourism
+        </label>
+      </div>
+      <div class="form-control">
+        <input
+          type="radio" id="purpose-choice-2" name="travel-purpose"
+          value="mental-work"
+        />
+        <label for="purpose-choice-2" class="radio-label">
+          study / mental work
+        </label>
+      </div>
+      <div class="form-control">
+        <input
+          type="radio" id="purpose-choice-3" name="travel-purpose"
+          value="physical-work"
+        />
+        <label for="purpose-choice-3" class="radio-label">
+          physical work
+        </label>
+      </div>
+      <div class="form-control">
+        <input
+          type="radio" id="purpose-choice-4" name="travel-purpose"
+          value="high-risk-sport"
+        />
+        <label for="purpose-choice-4" class="radio-label">
+          high-risk sport
+        </label>
+      </div>
+    </fieldset>
+    <div class="form-control flex-column">
+      <label for="country">
+        Country
+      </label>
+      <input type="text" id="country" name="country" required />
+    </div>
+    <div class="form-control flex-column">
+      <label for="address">
+        Address
+      </label>
+      <input type="text" id="address" name="address" required />
+    </div>
+    <div class="form-control flex-column">
+      <label for="date">
+        Date
+      </label>
+      <input
+        type="date" id="date" name="date"
+        min="2022-09-01" lang="en-US" required
+      />
+    </div>
+    <div class="form-control flex-column">
+      <label for="description">
+        Incident description (length between 30 and 300 characters inclusive)
+      </label>
+      <textarea
+        id="description" name="incident-description"
+        minlength="30" maxlength="600"
+        rows="15"
+        title="The description should be at least 30 characters long, but not more than 600"></textarea>
+    </div>
+    <div class="form-buttons flex-column">
+      <button type="button" class="btn btn-secondary" id="return-button">
+        Return
+      </button>
+      <button type="submit" class="btn btn-primary" id="submit-button">
+        Continue
+      </button>
+    </div>
+  `;
+
   const claimReportForm = getById('claim-report-form');
-  claimReportForm.innerHTML = personalDetailsHtml;
+  claimReportForm.innerHTML = incidentDetailsHTML;
 });
