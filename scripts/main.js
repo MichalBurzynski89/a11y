@@ -1,6 +1,7 @@
 const getById = (id) => document.getElementById(id);
 
 window.addEventListener('DOMContentLoaded', () => {
+  const numberOfSteps = 3;
   const formData = {
     firstName: null,
     secondName: null,
@@ -14,13 +15,38 @@ window.addEventListener('DOMContentLoaded', () => {
     date: null,
     incidentDescription: null,
     expenses: [
-      { name: 'very very very very very expensive item', price: 1000000 },
-      { name: 'not so much expensive item', price: 10000 },
-      { name: 'cheap item', price: 100 },
-      { name: 'just an item', price: 10 },
-      { name: 'item', price: 1 },
+      {
+        id: 1,
+        name: 'very very very very very expensive item',
+        price: 1000000,
+      },
+      { id: 2, name: 'not so much expensive item', price: 10000 },
+      { id: 3, name: 'cheap item', price: 100 },
+      { id: 4, name: 'just an item', price: 10 },
+      { id: 5, name: 'item', price: 1 },
     ],
   };
+
+  const mapExpensesToListItems = (expenses) =>
+    expenses.map(
+      ({ name, price }) =>
+        `<li class="list-item flex-row">
+          <span class="price text-bold">
+            ${price}&#36;
+          </span>
+          <span class="name" title="${name}">
+            ${name}
+          </span>
+          <div class="actions-container">
+            <button type="button" aria-label="Remove the expense">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+            <button type="button" aria-label="Edit expense">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </div>
+        </li>`
+    );
 
   const personalDetailsHTML = `
     <div class="form-control flex-column">
@@ -155,6 +181,32 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
   `;
 
+  const expenseReportHTML = `
+    <h2 class="heading-2-small" id="heading">
+      Expense report
+    </h2>
+    <div
+      class="expense-report-container"
+      role="group"
+      aria-labelledby="heading"
+    >
+      <ul class="expense-report-list">
+        ${mapExpensesToListItems(formData.expenses)}
+      </ul>
+    </div>
+    <div class="form-buttons flex-column position-relative">
+      <button type="button" class="btn btn-transparent" id="add-button">
+        <i class="fa-solid fa-plus"></i> Add another expense
+      </button>
+      <button type="button" class="btn btn-secondary" id="return-button">
+        Return
+      </button>
+      <button type="submit" class="btn btn-primary" id="submit-button">
+        Submit
+      </button>
+    </div>
+  `;
+
   const updateInputValuesAndAttachChangeEventListeners = () => {
     const inputFields = document.querySelectorAll(
       '.form-control input, textarea'
@@ -220,6 +272,11 @@ window.addEventListener('DOMContentLoaded', () => {
     elementToBeUpdated.classList.add('step-current');
   };
 
+  const getRidOfUnnecessaryTextNodes = () => {
+    const listItems = document.querySelectorAll('.list-item');
+    listItems.forEach((item) => (item.nextSibling.textContent = ''));
+  };
+
   const renderForm = (step = 1) => {
     const claimReportForm = getById('claim-report-form');
 
@@ -230,6 +287,9 @@ window.addEventListener('DOMContentLoaded', () => {
       case 2:
         claimReportForm.innerHTML = incidentDetailsHTML;
         break;
+      case 3:
+        claimReportForm.innerHTML = expenseReportHTML;
+        break;
       default:
         event.preventDefault();
         return;
@@ -238,6 +298,10 @@ window.addEventListener('DOMContentLoaded', () => {
     updateInputValuesAndAttachChangeEventListeners();
     attachClickEventListenersToButtons(claimReportForm, step);
     setCurrentStep(step);
+
+    if (step === numberOfSteps) {
+      getRidOfUnnecessaryTextNodes();
+    }
   };
 
   renderForm();

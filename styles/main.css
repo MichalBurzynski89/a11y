@@ -56,6 +56,10 @@ body {
   justify-content: center;
 }
 
+.position-relative {
+  position: relative;
+}
+
 /*** TYPOGRAPHY ***/
 
 .heading-1 {
@@ -138,6 +142,10 @@ body {
 
 .btn-secondary:hover {
   background-color: var(--secondary-color);
+}
+
+.btn-transparent {
+  background-color: transparent;
 }
 
 .btn:disabled,
@@ -392,7 +400,8 @@ body {
   margin-top: 2rem;
 }
 
-.main.claim-report > .form > fieldset {
+.main.claim-report > .form > fieldset,
+.main.claim-report > .form > h2 {
   border: none;
   margin-bottom: 1.25rem;
 }
@@ -416,6 +425,7 @@ body {
 
 .main.claim-report .form-control > input:not([type='radio']),
 textarea {
+  font-size: 0.875rem;
   width: 100%;
   padding: 0.5rem 1rem;
   border: 1px solid var(--black-color);
@@ -438,6 +448,48 @@ textarea {
   display: block;
   margin-left: auto;
   min-width: 220px;
+}
+
+.main.claim-report > .form .expense-report-list {
+  list-style-type: none;
+}
+
+.main.claim-report > .form .expense-report-list .list-item {
+  margin-bottom: 1.25rem;
+}
+
+.main.claim-report > .form .expense-report-list .price {
+  min-width: 10%;
+  margin-right: 0.5rem;
+}
+
+.main.claim-report > .form .expense-report-list .actions-container {
+  margin-left: auto;
+}
+
+.main.claim-report > .form .expense-report-list .actions-container > button {
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.expense-report-list .actions-container > button:first-child {
+  margin-right: 1rem;
+}
+
+.main.claim-report .form-buttons.position-relative {
+  padding-top: 4rem;
+}
+
+.main.claim-report #add-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem 0;
 }
 
 /*** MEDIA QUERIES ***/
@@ -613,6 +665,13 @@ textarea {
   .section-buttons > .btn:first-child {
     margin-bottom: 1rem;
     margin-right: 0;
+  }
+
+  .main.claim-report > .form .expense-report-list .name {
+    max-width: 35%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
