@@ -1,6 +1,27 @@
 const getById = (id) => document.getElementById(id);
 
 window.addEventListener('DOMContentLoaded', () => {
+  const formData = {
+    firstName: null,
+    secondName: null,
+    birthday: null,
+    phoneNumber: null,
+    email: null,
+    policyNumber: null,
+    travelPurpose: 'tourism',
+    country: null,
+    address: null,
+    date: null,
+    incidentDescription: null,
+    expenses: [
+      { name: 'very very very very very expensive item', price: 1000000 },
+      { name: 'not so much expensive item', price: 10000 },
+      { name: 'cheap item', price: 100 },
+      { name: 'just an item', price: 10 },
+      { name: 'item', price: 1 },
+    ],
+  };
+
   const personalDetailsHTML = `
     <div class="form-control flex-column">
       <label for="first-name">
@@ -18,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
       <label for="birthday">
         Birthday
       </label>
-      <input type="date" id="birthday" name="birthday" lang="en-US" required />
+      <input type="date" id="birthday" name="birthday" max="2021-12-31" lang="en-US" required />
     </div>
     <div class="form-control flex-column">
       <label for="phone-number">
@@ -59,7 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
       <div class="form-control">
         <input
           type="radio" id="purpose-choice-1" name="travel-purpose"
-          value="tourism" checked
+          value="tourism"
         />
         <label for="purpose-choice-1" class="radio-label">
           tourism
@@ -121,7 +142,7 @@ window.addEventListener('DOMContentLoaded', () => {
       <textarea
         id="description" name="incident-description"
         minlength="30" maxlength="600"
-        rows="15"
+        rows="15" required
         title="The description should be at least 30 characters long, but not more than 600"></textarea>
     </div>
     <div class="form-buttons flex-column">
@@ -134,6 +155,90 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
   `;
 
-  const claimReportForm = getById('claim-report-form');
-  claimReportForm.innerHTML = incidentDetailsHTML;
+  const updateInputValuesAndAttachChangeEventListeners = () => {
+    const inputFields = document.querySelectorAll(
+      '.form-control input, textarea'
+    );
+
+    inputFields.forEach((inputField) => {
+      const formDataKey = inputField
+        .getAttribute('name')
+        .split('-')
+        .map((value, index) =>
+          index < 1 ? value : value[0].toUpperCase() + value.slice(1)
+        )
+        .join('');
+
+      const typeOfInputField = inputField.getAttribute('type');
+      const isOfRadioType = typeOfInputField === 'radio';
+
+      if (isOfRadioType) {
+        const isEqualToSavedValue = formData[formDataKey] === inputField.value;
+        isEqualToSavedValue && inputField.setAttribute('checked', true);
+      } else {
+        inputField.value = formData[formDataKey];
+      }
+
+      inputField.addEventListener('change', ({ target }) => {
+        formData[formDataKey] = target.value;
+
+        if (isOfRadioType) {
+          target.setAttribute('checked', true);
+        }
+      });
+    });
+  };
+
+  const attachClickEventListenersToButtons = (form, currentStep) => {
+    const returnButton = getById('return-button');
+    const submitButton = getById('submit-button');
+
+    if (returnButton !== null) {
+      returnButton.addEventListener('click', () => renderForm(currentStep - 1));
+    }
+
+    submitButton.addEventListener('click', () => {
+      const isFormValid = form.reportValidity();
+
+      if (!isFormValid) {
+        return;
+      }
+
+      renderForm(currentStep + 1);
+    });
+  };
+
+  const setCurrentStep = (currentStep) => {
+    const steps = document.querySelectorAll('.progress-indicator .step');
+    steps.forEach((step) => {
+      step.removeAttribute('aria-current');
+      step.classList.remove('step-current');
+    });
+
+    const elementToBeUpdated = steps[currentStep - 1];
+    elementToBeUpdated.setAttribute('aria-current', 'step');
+    elementToBeUpdated.classList.add('step-current');
+  };
+
+  const renderForm = (step = 1) => {
+    const claimReportForm = getById('claim-report-form');
+
+    switch (step) {
+      case 1:
+        claimReportForm.innerHTML = personalDetailsHTML;
+        break;
+      case 2:
+        claimReportForm.innerHTML = incidentDetailsHTML;
+        break;
+      default:
+        event.preventDefault();
+        return;
+    }
+
+    updateInputValuesAndAttachChangeEventListeners();
+    attachClickEventListenersToButtons(claimReportForm, step);
+    setCurrentStep(step);
+  };
+
+  renderForm();
 });
