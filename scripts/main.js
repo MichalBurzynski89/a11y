@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const mapExpensesToListItems = (expenses) =>
     expenses.map(
-      ({ name, price }) =>
+      ({ id, name, price }) =>
         `<li class="list-item flex-row">
           <span class="price text-bold">
             ${price}&#36;
@@ -38,15 +38,95 @@ window.addEventListener('DOMContentLoaded', () => {
             ${name}
           </span>
           <div class="actions-container">
-            <button type="button" aria-label="Remove the expense">
-              <i class="fa-solid fa-trash-can"></i>
+            <button
+              type="button"
+              id="remove-button#${id}"
+              aria-label="Remove the expense"
+              aria-haspopup="dialog"
+            >
+              <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
             </button>
-            <button type="button" aria-label="Edit expense">
-              <i class="fa-solid fa-pen"></i>
+            <button
+              type="button"
+              id="edit-button#${id}"
+              aria-label="Edit expense"
+              aria-haspopup="dialog"
+            >
+              <i class="fa-solid fa-pen" aria-hidden="true"></i>
             </button>
           </div>
         </li>`
     );
+
+  const mapClickedButtonToExpenseItem = (clickedButton) => {
+    const elementId = clickedButton.getAttribute('id');
+    const expenseId = +elementId.split('#').reverse()[0];
+    const expenseItem = formData.expenses.find(({ id }) => id === expenseId);
+
+    return expenseItem;
+  };
+
+  const createAddOrEditExpenseDialog = (
+    expenseItem = { id: null, name: '', price: null }
+  ) => `
+    <div
+      class="modal-dialog position-absolute"
+      id="dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="dialog-title"
+    >
+      <button
+        type="button"
+        class="dialog-close"
+        id="dialog-close-button"
+        aria-label="Close the dialog"
+      >
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+      <h2 class="dialog-heading heading-2 text-center" id="dialog-title">
+        ${expenseItem.id !== null ? 'Edit' : 'New'} Expense
+      </h2>
+      <form class="dialog-form">
+        <div class="form-control flex-column">
+          <label for="expense-name" class="text-bold">
+            Name (max length 50 characters)
+          </label>
+          <input
+            type="text"
+            id="expense-name"
+            name="expense-name"
+            maxlength="50"
+            title="Please enter a name that is no longer than 50 characters"
+            value="${expenseItem.name}"
+            required
+          />
+        </div>
+        <div class="form-control flex-column">
+          <label for="expense-price" class="text-bold">
+            Price (between 1 and 1,000,000)
+          </label>
+          <input
+            type="number"
+            id="expense-price"
+            name="expense-price"
+            min="1" max="1000000"
+            title="The price should be between 1 and 1,000,000"
+            value="${expenseItem.price}"
+            required
+          />
+        </div>
+        <div class="form-buttons flex-row justify-content-center">
+          <button type="button" class="btn btn-secondary" id="cancel-button">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" id="action-button">
+            ${expenseItem.id !== null ? 'Edit' : 'Add'}
+          </button>
+        </div>
+      </form>
+    </div>
+  `;
 
   const personalDetailsHTML = `
     <div class="form-control flex-column">
@@ -195,8 +275,13 @@ window.addEventListener('DOMContentLoaded', () => {
       </ul>
     </div>
     <div class="form-buttons flex-column position-relative">
-      <button type="button" class="btn btn-transparent" id="add-button">
-        <i class="fa-solid fa-plus"></i> Add another expense
+      <button
+        type="button"
+        class="btn btn-transparent"
+        id="add-button"
+        aria-haspopup="dialog"
+      >
+        <i class="fa-solid fa-plus" aria-hidden="true"></i> Add another expense
       </button>
       <button type="button" class="btn btn-secondary" id="return-button">
         Return
@@ -277,6 +362,33 @@ window.addEventListener('DOMContentLoaded', () => {
     listItems.forEach((item) => (item.nextSibling.textContent = ''));
   };
 
+  const handleTogglingDisplayOfDialogBoxes = () => {
+    const addExpenseButton = getById('add-button');
+    const editExpenseButtons = document.querySelectorAll(
+      '.actions-container button:last-child'
+    );
+
+    addExpenseButton.addEventListener('click', () => openDialog());
+    editExpenseButtons.forEach((button) =>
+      button.addEventListener('click', function () {
+        const expenseItem = mapClickedButtonToExpenseItem(this);
+        openDialog(expenseItem);
+      })
+    );
+  };
+
+  const openDialog = (expenseItem = null) => {
+    const body = document.body;
+    const modal = getById('modal');
+
+    modal.classList.remove('is-hidden');
+    modal.innerHTML =
+      expenseItem !== null
+        ? createAddOrEditExpenseDialog(expenseItem)
+        : createAddOrEditExpenseDialog();
+    body.classList.add('modal-open');
+  };
+
   const renderForm = (step = 1) => {
     const claimReportForm = getById('claim-report-form');
 
@@ -301,8 +413,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (step === numberOfSteps) {
       getRidOfUnnecessaryTextNodes();
+      handleTogglingDisplayOfDialogBoxes();
     }
   };
 
-  renderForm();
+  renderForm(3);
 });
