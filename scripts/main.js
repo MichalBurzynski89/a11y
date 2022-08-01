@@ -27,6 +27,20 @@ window.addEventListener('DOMContentLoaded', () => {
     ],
   };
 
+  const generateRandomId = () => {
+    const generateRandomIdHelper = () =>
+      Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1;
+    const unavailableIds = formData.expenses.map(({ id }) => id);
+
+    let generatedId = generateRandomIdHelper();
+
+    while (unavailableIds.includes(generatedId)) {
+      generatedId = generateRandomIdHelper();
+    }
+
+    return generatedId;
+  };
+
   const mapExpensesToListItems = (expenses) =>
     expenses.map(
       ({ id, name, price }) =>
@@ -456,7 +470,7 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   const addNewExpense = () => {
-    const newExpenseId = formData.expenses.length + 1;
+    const newExpenseId = generateRandomId();
     const expenseNameElement = getById('expense-name');
     const expensePriceElement = getById('expense-price');
 
