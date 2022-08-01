@@ -1,8 +1,11 @@
+const LOCAL_STORAGE_KEY = 'FORM_DATA';
+
 const getById = (id) => document.getElementById(id);
 
 window.addEventListener('DOMContentLoaded', () => {
   const numberOfSteps = 3;
-  const formData = {
+
+  const defaultData = {
     firstName: null,
     secondName: null,
     birthday: null,
@@ -26,6 +29,12 @@ window.addEventListener('DOMContentLoaded', () => {
       { id: 5, name: 'item', price: 1 },
     ],
   };
+
+  const dataFromLocalStorage = localStorage.getItem(LOCAL_STORAGE_KEY);
+  const formData =
+    dataFromLocalStorage !== null
+      ? JSON.parse(dataFromLocalStorage)
+      : defaultData;
 
   const generateRandomId = () => {
     const generateRandomIdHelper = () =>
@@ -314,9 +323,7 @@ window.addEventListener('DOMContentLoaded', () => {
       role="group"
       aria-labelledby="heading"
     >
-      <ul class="expense-report-list">
-        ${mapExpensesToListItems(formData.expenses)}
-      </ul>
+      <ul class="expense-report-list" id="list-of-expenses"></ul>
     </div>
     <div class="form-buttons flex-column position-relative">
       <button
@@ -572,7 +579,7 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   const updateExpenseReportList = () => {
-    const expenseReportList = document.querySelector('.expense-report-list');
+    const expenseReportList = getById('list-of-expenses');
     expenseReportList.innerHTML = mapExpensesToListItems(formData.expenses);
     getRidOfUnnecessaryTextNodes();
     handleTogglingDisplayOfDialogBoxes();
@@ -603,7 +610,10 @@ window.addEventListener('DOMContentLoaded', () => {
         claimReportForm.innerHTML = expenseReportHTML;
         break;
       default:
-        event.preventDefault();
+        (function (evt) {
+          evt.preventDefault();
+          submitData();
+        })(event);
         return;
     }
 
@@ -612,10 +622,30 @@ window.addEventListener('DOMContentLoaded', () => {
     setCurrentStep(step);
 
     if (step === numberOfSteps) {
-      getRidOfUnnecessaryTextNodes();
-      handleTogglingDisplayOfDialogBoxes();
+      updateExpenseReportList();
     }
   };
 
-  renderForm(3);
+  const submitData = () => {
+    const body = document.body;
+    const spinner = getById('spinner');
+
+    spinner.setAttribute('aria-busy', true);
+    spinner.setAttribute('aria-valuenow', 0);
+    spinner.classList.remove('is-hidden');
+    body.classList.add('is-loading');
+    toggleFocusabilityOfItemsOutsideOfDialogBox();
+
+    setTimeout(() => {
+      spinner.setAttribute('aria-busy', false);
+      spinner.setAttribute('aria-valuenow', 100);
+      spinner.classList.add('is-hidden');
+      body.classList.remove('is-loading');
+      toggleFocusabilityOfItemsOutsideOfDialogBox(true);
+
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(formData));
+    }, 3000);
+  };
+
+  renderForm();
 });

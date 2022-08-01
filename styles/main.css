@@ -502,15 +502,18 @@ textarea {
 
 /*** MODAL ***/
 
-body.modal-open {
+body.modal-open,
+body.is-loading {
   overflow: hidden;
 }
 
-.modal-container.is-hidden {
+.modal-container.is-hidden,
+.spinner-container.is-hidden {
   display: none;
 }
 
-.modal-container {
+.modal-container,
+.spinner-container {
   display: block;
   position: fixed;
   top: 0;
@@ -518,6 +521,17 @@ body.modal-open {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
+}
+
+.spinner-container {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.spinner-container > img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .modal-dialog {
