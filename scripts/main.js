@@ -142,6 +142,36 @@ window.addEventListener('DOMContentLoaded', () => {
     </div>
   `;
 
+  const deleteConfirmationDialog = `
+    <div
+      class="modal-dialog position-absolute"
+      id="dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="dialog-title"
+    >
+      <button
+        type="button"
+        class="dialog-close"
+        id="dialog-close-button"
+        aria-label="Close the dialog"
+      >
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+      <h2 class="dialog-heading heading-2 text-center" id="dialog-title">
+        Are you sure you want to delete this expense?
+      </h2>
+      <div class="dialog-actions flex-row justify-content-center">
+        <button type="button" class="btn btn-secondary" id="cancel-button">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary" id="action-button">
+          Delete
+        </button>
+      </div>
+    </div>
+  `;
+
   const personalDetailsHTML = `
     <div class="form-control flex-column">
       <label for="first-name">
@@ -380,11 +410,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const handleTogglingDisplayOfDialogBoxes = () => {
     const addExpenseButton = getById('add-button');
+    const deleteExpenseButtons = document.querySelectorAll(
+      '.actions-container button:first-child'
+    );
     const editExpenseButtons = document.querySelectorAll(
       '.actions-container button:last-child'
     );
 
     addExpenseButton.addEventListener('click', () => openDialog());
+    deleteExpenseButtons.forEach((button) =>
+      button.addEventListener('click', function () {
+        const expenseItem = mapClickedButtonToExpenseItem(this);
+        const isDeleting = true;
+        openDialog(expenseItem, isDeleting);
+      })
+    );
     editExpenseButtons.forEach((button) =>
       button.addEventListener('click', function () {
         const expenseItem = mapClickedButtonToExpenseItem(this);
@@ -393,7 +433,7 @@ window.addEventListener('DOMContentLoaded', () => {
     );
   };
 
-  const openDialog = (expenseItem = null) => {
+  const openDialog = (expenseItem = null, isDeleting = false) => {
     const body = document.body;
     const modal = getById('modal');
     const expenseItemId = expenseItem && expenseItem.id;
@@ -401,7 +441,9 @@ window.addEventListener('DOMContentLoaded', () => {
     modal.classList.remove('is-hidden');
     modal.innerHTML =
       expenseItem !== null
-        ? createAddOrEditExpenseDialog(expenseItem)
+        ? isDeleting
+          ? deleteConfirmationDialog
+          : createAddOrEditExpenseDialog(expenseItem)
         : createAddOrEditExpenseDialog();
     body.classList.add('modal-open');
 
@@ -417,30 +459,36 @@ window.addEventListener('DOMContentLoaded', () => {
     dialog.addEventListener(
       'keydown',
       (keyboardEvent) =>
-        keyboardEvent.key === 'Escape' && closeDialog(expenseItemId)
+        keyboardEvent.key === 'Escape' && closeDialog(expenseItemId, isDeleting)
     );
     dialogCloseButton.addEventListener(
       'click',
-      closeDialog.bind(null, expenseItemId)
+      closeDialog.bind(null, expenseItemId, isDeleting)
     );
     cancelButton.addEventListener(
       'click',
-      closeDialog.bind(null, expenseItemId)
+      closeDialog.bind(null, expenseItemId, isDeleting)
     );
     actionButton.addEventListener('click', (event) => {
-      event.preventDefault();
-      const isFormValid = dialogForm.reportValidity();
+      if (!isDeleting) {
+        event.preventDefault();
+        const isFormValid = dialogForm.reportValidity();
 
-      if (!isFormValid) {
-        return;
+        if (!isFormValid) {
+          return;
+        }
       }
 
-      expenseItem !== null ? editExpense(expenseItem) : addNewExpense();
-      closeDialog(expenseItemId);
+      expenseItem !== null
+        ? isDeleting
+          ? deleteExpense(expenseItemId)
+          : editExpense(expenseItemId)
+        : addNewExpense();
+      closeDialog(expenseItemId, isDeleting);
     });
   };
 
-  const closeDialog = (expenseItemId) => {
+  const closeDialog = (expenseItemId, isDeleting = false) => {
     const body = document.body;
     const modal = getById('modal');
 
@@ -451,23 +499,39 @@ window.addEventListener('DOMContentLoaded', () => {
     toggleFocusabilityOfItemsOutsideOfDialogBox(true);
 
     const addExpenseButton = getById('add-button');
+    const deleteExpenseButtons = [
+      ...document.querySelectorAll('.actions-container button:first-child'),
+    ];
     const editExpenseButtons = [
       ...document.querySelectorAll('.actions-container button:last-child'),
     ];
 
     if (expenseItemId === null) {
       addExpenseButton.focus();
-    } else {
-      const clickedButton = editExpenseButtons.find((btn) => {
-        const elementId = btn.getAttribute('id');
-        const parsedId = +elementId.split('#').reverse()[0];
+    } else if (isDeleting) {
+      const clickedButton = findClickedElement(
+        deleteExpenseButtons,
+        expenseItemId
+      );
 
-        return parsedId === expenseItemId;
-      });
+      (clickedButton || deleteExpenseButtons[0] || addExpenseButton).focus();
+    } else {
+      const clickedButton = findClickedElement(
+        editExpenseButtons,
+        expenseItemId
+      );
 
       clickedButton.focus();
     }
   };
+
+  const findClickedElement = (elements, id) =>
+    elements.find((element) => {
+      const elementId = element.getAttribute('id');
+      const parsedId = +elementId.split('#').reverse()[0];
+
+      return parsedId === id;
+    });
 
   const addNewExpense = () => {
     const newExpenseId = generateRandomId();
@@ -484,9 +548,9 @@ window.addEventListener('DOMContentLoaded', () => {
     updateExpenseReportList();
   };
 
-  const editExpense = ({ id }) => {
+  const editExpense = (expenseItemId) => {
     const expenseIndexToBeUpdated = formData.expenses.findIndex(
-      (expense) => expense.id === id
+      (expense) => expense.id === expenseItemId
     );
     const expenseNameElement = getById('expense-name');
     const expensePriceElement = getById('expense-price');
@@ -497,6 +561,13 @@ window.addEventListener('DOMContentLoaded', () => {
       price: +expensePriceElement.value,
     };
 
+    updateExpenseReportList();
+  };
+
+  const deleteExpense = (expenseItemId) => {
+    formData.expenses = formData.expenses.filter(
+      (expense) => expense.id !== expenseItemId
+    );
     updateExpenseReportList();
   };
 

@@ -454,6 +454,10 @@ textarea {
   min-width: 220px;
 }
 
+.main.claim-report > .form > .expense-report-container {
+  min-height: 90px;
+}
+
 .main.claim-report > .form .expense-report-list {
   list-style-type: none;
 }
@@ -559,12 +563,14 @@ body.modal-open {
   background-color: var(--input-background-color);
 }
 
-.dialog-form > .form-buttons > .btn {
+.dialog-form > .form-buttons > .btn,
+.dialog-actions > .btn {
   width: 45%;
   max-width: 220px;
 }
 
-.dialog-form > .form-buttons > .btn:first-child {
+.dialog-form > .form-buttons > .btn:first-child,
+.dialog-actions > .btn:first-child {
   margin-right: 1rem;
 }
 
@@ -627,7 +633,8 @@ body.modal-open {
     padding: 1rem;
   }
 
-  .dialog-form > .form-buttons {
+  .dialog-form > .form-buttons,
+  .dialog-actions {
     margin-top: 2.5rem;
   }
 }
