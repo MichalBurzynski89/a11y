@@ -30,6 +30,13 @@ window.addEventListener('DOMContentLoaded', () => {
     ],
   };
 
+  const toastMessages = [
+    'The expense has been successfully deleted!',
+    'The expense has been successfully updated!',
+    'New Expense successfully added!',
+    'The data has been saved successfully!',
+  ];
+
   const dataFromLocalStorage = localStorage.getItem(LOCAL_STORAGE_KEY);
   const formData =
     dataFromLocalStorage !== null
@@ -148,6 +155,30 @@ window.addEventListener('DOMContentLoaded', () => {
           </button>
         </div>
       </form>
+    </div>
+  `;
+
+  const createToastSuccessMessage = (toastMessageIndex) => `
+    <div
+      class="toast position-fixed"
+      id="toast"
+      role="status"
+      aria-label="Success message"
+    >
+      <button
+        type="button"
+        class="toast-close text-white"
+        id="toast-close-button"
+        aria-label="Close the toast message"
+      >
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+      <div class="toast-content flex-row justify-content-between">
+        <i class="fa-solid fa-circle-check text-white" aria-hidden="true"></i>
+        <p class="toast-message text-bold text-center text-white">
+          ${toastMessages[toastMessageIndex]}
+        </p>
+      </div>
     </div>
   `;
 
@@ -552,6 +583,7 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     formData.expenses.push(newExpense);
+    displayToastMessage(2);
     updateExpenseReportList();
   };
 
@@ -568,6 +600,7 @@ window.addEventListener('DOMContentLoaded', () => {
       price: +expensePriceElement.value,
     };
 
+    displayToastMessage(1);
     updateExpenseReportList();
   };
 
@@ -575,7 +608,28 @@ window.addEventListener('DOMContentLoaded', () => {
     formData.expenses = formData.expenses.filter(
       (expense) => expense.id !== expenseItemId
     );
+    displayToastMessage(0);
     updateExpenseReportList();
+  };
+
+  const displayToastMessage = (toastMessageIndex) => {
+    const pageWrapper = document.querySelector('.wrapper');
+    const isToastAlreadyDisplayed = getById('toast') !== null;
+
+    if (isToastAlreadyDisplayed) {
+      pageWrapper.removeChild(pageWrapper.lastElementChild);
+    }
+
+    pageWrapper.insertAdjacentHTML(
+      'beforeend',
+      createToastSuccessMessage(toastMessageIndex)
+    );
+
+    const toastCloseButton = getById('toast-close-button');
+    toastCloseButton.addEventListener('click', () => {
+      const toast = getById('toast');
+      pageWrapper.removeChild(toast);
+    });
   };
 
   const updateExpenseReportList = () => {
@@ -644,8 +698,23 @@ window.addEventListener('DOMContentLoaded', () => {
       toggleFocusabilityOfItemsOutsideOfDialogBox(true);
 
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(formData));
+      displayToastMessage(3);
     }, 3000);
   };
+
+  document.body.addEventListener('keydown', (keyboardEvent) => {
+    if (keyboardEvent.key !== 'Escape') {
+      return;
+    }
+
+    const toast = getById('toast');
+
+    if (toast === null) {
+      return;
+    }
+
+    document.querySelector('.wrapper').removeChild(toast);
+  });
 
   renderForm();
 });

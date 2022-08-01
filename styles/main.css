@@ -7,6 +7,7 @@
   --white-color: #ffffff;
   --gray-color: #606060;
   --input-background-color: #f4f4f4;
+  --success-message-color: #31b93f;
   --hover-brightness: 110%;
 }
 
@@ -62,6 +63,10 @@ body {
 
 .position-absolute {
   position: absolute;
+}
+
+.position-fixed {
+  position: fixed;
 }
 
 /*** TYPOGRAPHY ***/
@@ -594,6 +599,83 @@ body.is-loading {
   margin-right: 1rem;
 }
 
+/*** TOAST ***/
+
+@keyframes toast-animation-mobile {
+  0% {
+    transform: scale(0) translate(-50%, -50%);
+  }
+
+  50% {
+    transform: scale(0) translate(-50%, -50%);
+  }
+
+  100% {
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+@keyframes toast-animation-desktop {
+  0% {
+    transform: scale(0);
+  }
+
+  25% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.toast {
+  top: 50%;
+  left: 50%;
+  background-color: var(--success-message-color);
+  padding: 3.5rem 1.25rem;
+  width: 90%;
+  max-width: 450px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px 4px var(--success-message-color);
+  overflow: hidden;
+  animation: toast-animation-mobile 0.5s ease-in-out forwards;
+}
+
+.toast > .toast-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.25rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.toast > .toast-content {
+  font-size: 1.25rem;
+}
+
+.toast-content > i {
+  transform: translateX(0.75rem);
+}
+
+.toast-content > i::after {
+  content: '';
+  width: 2px;
+  height: 170px;
+  background-color: var(--white-color);
+  position: absolute;
+  top: -60px;
+  right: -2rem;
+}
+
+.toast-content > .toast-message {
+  margin-left: 0.5rem;
+  position: relative;
+  max-width: 80%;
+}
+
 /*** MEDIA QUERIES ***/
 
 @media screen and (min-width: 1315px) {
@@ -661,6 +743,15 @@ body.is-loading {
   .dialog-form > .form-buttons,
   .dialog-actions {
     margin-top: 2.5rem;
+  }
+
+  .toast {
+    top: auto;
+    left: auto;
+    bottom: 3rem;
+    right: 6rem;
+    transform: none;
+    animation: toast-animation-desktop 0.5s ease-in-out forwards;
   }
 }
 
