@@ -67,7 +67,7 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   const createAddOrEditExpenseDialog = (
-    expenseItem = { id: null, name: '', price: null }
+    expenseItem = { id: null, name: '', price: 1 }
   ) => `
     <div
       class="modal-dialog position-absolute"
@@ -87,7 +87,7 @@ window.addEventListener('DOMContentLoaded', () => {
       <h2 class="dialog-heading heading-2 text-center" id="dialog-title">
         ${expenseItem.id !== null ? 'Edit' : 'New'} Expense
       </h2>
-      <form class="dialog-form">
+      <form class="dialog-form" id="dialog-form">
         <div class="form-control flex-column">
           <label for="expense-name" class="text-bold">
             Name (max length 50 characters)
@@ -359,7 +359,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const getRidOfUnnecessaryTextNodes = () => {
     const listItems = document.querySelectorAll('.list-item');
-    listItems.forEach((item) => (item.nextSibling.textContent = ''));
+    listItems.forEach(
+      (item) => item.nextSibling && (item.nextSibling.textContent = '')
+    );
   };
 
   const handleTogglingDisplayOfDialogBoxes = () => {
@@ -380,6 +382,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const openDialog = (expenseItem = null) => {
     const body = document.body;
     const modal = getById('modal');
+    const lastActiveItem = document.activeElement;
 
     modal.classList.remove('is-hidden');
     modal.innerHTML =
@@ -387,6 +390,100 @@ window.addEventListener('DOMContentLoaded', () => {
         ? createAddOrEditExpenseDialog(expenseItem)
         : createAddOrEditExpenseDialog();
     body.classList.add('modal-open');
+
+    const dialog = getById('dialog');
+    const dialogForm = getById('dialog-form');
+    const dialogCloseButton = getById('dialog-close-button');
+    const cancelButton = getById('cancel-button');
+    const actionButton = getById('action-button');
+
+    toggleFocusabilityOfItemsOutsideOfDialogBox();
+
+    dialogCloseButton.focus();
+    dialog.addEventListener(
+      'keydown',
+      (keyboardEvent) =>
+        keyboardEvent.key === 'Escape' && closeDialog(lastActiveItem)
+    );
+    dialogCloseButton.addEventListener(
+      'click',
+      closeDialog.bind(null, lastActiveItem)
+    );
+    cancelButton.addEventListener(
+      'click',
+      closeDialog.bind(null, lastActiveItem)
+    );
+    actionButton.addEventListener('click', () => {
+      const isFormValid = dialogForm.reportValidity();
+
+      if (!isFormValid) {
+        return;
+      }
+
+      expenseItem !== null ? editExpense(expenseItem) : addNewExpense();
+      closeDialog(lastActiveItem);
+    });
+  };
+
+  const closeDialog = (lastActiveItem) => {
+    const body = document.body;
+    const modal = getById('modal');
+
+    modal.innerHTML = '';
+    modal.classList.add('is-hidden');
+    body.classList.remove('modal-open');
+
+    toggleFocusabilityOfItemsOutsideOfDialogBox(true);
+    lastActiveItem.focus();
+  };
+
+  const addNewExpense = () => {
+    const newExpenseId = formData.expenses.length + 1;
+    const expenseNameElement = getById('expense-name');
+    const expensePriceElement = getById('expense-price');
+
+    const newExpense = {
+      id: newExpenseId,
+      name: expenseNameElement.value,
+      price: +expensePriceElement.value,
+    };
+
+    formData.expenses.push(newExpense);
+    updateExpenseReportList();
+  };
+
+  const editExpense = ({ id }) => {
+    const expenseIndexToBeUpdated = formData.expenses.findIndex(
+      (expense) => expense.id === id
+    );
+    const expenseNameElement = getById('expense-name');
+    const expensePriceElement = getById('expense-price');
+
+    formData.expenses[expenseIndexToBeUpdated] = {
+      id: formData.expenses[expenseIndexToBeUpdated].id,
+      name: expenseNameElement.value,
+      price: +expensePriceElement.value,
+    };
+
+    updateExpenseReportList();
+  };
+
+  const updateExpenseReportList = () => {
+    const expenseReportList = document.querySelector('.expense-report-list');
+    expenseReportList.innerHTML = mapExpensesToListItems(formData.expenses);
+    getRidOfUnnecessaryTextNodes();
+    handleTogglingDisplayOfDialogBoxes();
+  };
+
+  const toggleFocusabilityOfItemsOutsideOfDialogBox = (
+    shouldBeFocusable = false
+  ) => {
+    const focusableElementsOutsideOfDialog = document.querySelectorAll(
+      '.wrapper a, .wrapper button'
+    );
+    focusableElementsOutsideOfDialog.forEach((element) =>
+      element.setAttribute('tabindex', shouldBeFocusable ? 0 : -1)
+    );
   };
 
   const renderForm = (step = 1) => {
