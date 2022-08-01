@@ -382,7 +382,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const openDialog = (expenseItem = null) => {
     const body = document.body;
     const modal = getById('modal');
-    const lastActiveItem = document.activeElement;
+    const expenseItemId = expenseItem && expenseItem.id;
 
     modal.classList.remove('is-hidden');
     modal.innerHTML =
@@ -403,17 +403,18 @@ window.addEventListener('DOMContentLoaded', () => {
     dialog.addEventListener(
       'keydown',
       (keyboardEvent) =>
-        keyboardEvent.key === 'Escape' && closeDialog(lastActiveItem)
+        keyboardEvent.key === 'Escape' && closeDialog(expenseItemId)
     );
     dialogCloseButton.addEventListener(
       'click',
-      closeDialog.bind(null, lastActiveItem)
+      closeDialog.bind(null, expenseItemId)
     );
     cancelButton.addEventListener(
       'click',
-      closeDialog.bind(null, lastActiveItem)
+      closeDialog.bind(null, expenseItemId)
     );
-    actionButton.addEventListener('click', () => {
+    actionButton.addEventListener('click', (event) => {
+      event.preventDefault();
       const isFormValid = dialogForm.reportValidity();
 
       if (!isFormValid) {
@@ -421,11 +422,11 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       expenseItem !== null ? editExpense(expenseItem) : addNewExpense();
-      closeDialog(lastActiveItem);
+      closeDialog(expenseItemId);
     });
   };
 
-  const closeDialog = (lastActiveItem) => {
+  const closeDialog = (expenseItemId) => {
     const body = document.body;
     const modal = getById('modal');
 
@@ -434,7 +435,24 @@ window.addEventListener('DOMContentLoaded', () => {
     body.classList.remove('modal-open');
 
     toggleFocusabilityOfItemsOutsideOfDialogBox(true);
-    lastActiveItem.focus();
+
+    const addExpenseButton = getById('add-button');
+    const editExpenseButtons = [
+      ...document.querySelectorAll('.actions-container button:last-child'),
+    ];
+
+    if (expenseItemId === null) {
+      addExpenseButton.focus();
+    } else {
+      const clickedButton = editExpenseButtons.find((btn) => {
+        const elementId = btn.getAttribute('id');
+        const parsedId = +elementId.split('#').reverse()[0];
+
+        return parsedId === expenseItemId;
+      });
+
+      clickedButton.focus();
+    }
   };
 
   const addNewExpense = () => {
