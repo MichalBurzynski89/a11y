@@ -339,10 +339,16 @@ body {
   margin-right: 1.5rem;
 }
 
+/*** FOOTER ***/
+
 .footer {
   background-color: var(--secondary-color);
   padding: 4rem 6rem;
   align-items: flex-start;
+}
+
+.footer.bottom-fixed {
+  margin-top: 6rem;
 }
 
 .footer > .avatar-container {
@@ -613,6 +619,11 @@ body.is-loading {
   .wrapper {
     padding: 0 10vw;
   }
+
+  .footer.bottom-fixed {
+    left: 10vw !important;
+    right: 10vw !important;
+  }
 }
 
 @media screen and (min-width: 800px) {
@@ -650,6 +661,19 @@ body.is-loading {
   .dialog-form > .form-buttons,
   .dialog-actions {
     margin-top: 2.5rem;
+  }
+}
+
+@media screen and (min-width: 648px) and (min-height: 800px) {
+  .wrapper.position-relative {
+    height: 100vh;
+  }
+
+  .footer.bottom-fixed {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 }
 

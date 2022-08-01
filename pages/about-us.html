@@ -12,15 +12,11 @@
 
     <link rel="stylesheet" href="https://use.typekit.net/mbn0ylt.css" />
     <link rel="stylesheet" href="../styles/main.css" />
-    <script
-      src="https://kit.fontawesome.com/ce06d2fab8.js"
-      crossorigin="anonymous"
-    ></script>
 
-    <title>Travel Insurance | Claim report</title>
+    <title>Travel Insurance | About us</title>
   </head>
   <body>
-    <div class="wrapper">
+    <div class="wrapper position-relative">
       <header class="header">
         <nav class="navigation flex-row justify-content-between">
           <div class="avatar-container flex-row">
@@ -37,15 +33,15 @@
               <a href="/" class="navigation-link">Insurance</a>
             </li>
             <li class="navigation-list-item">
-              <a href="../pages/about-us.html" class="navigation-link">
+              <a
+                href="../pages/about-us.html"
+                class="navigation-link is-active"
+              >
                 About us
               </a>
             </li>
             <li class="navigation-list-item">
-              <a
-                href="../pages/claim-report.html"
-                class="navigation-link is-active"
-              >
+              <a href="../pages/claim-report.html" class="navigation-link">
                 Claim report
               </a>
             </li>
@@ -58,32 +54,13 @@
         </nav>
       </header>
 
-      <main class="main claim-report flex-column justify-content-center">
-        <h1 class="heading-1">Claim Report</h1>
-        <div
-          class="progress-indicator flex-column"
-          role="group"
-          aria-label="Progress indicator"
-        >
-          <span
-            class="step step-current step-rounded"
-            aria-current="step"
-            tabindex="-1"
-          >
-            Step 1 - Personal Details
-          </span>
-          <span class="step step-rounded" tabindex="-1">
-            Step 2 - Incident Details
-          </span>
-          <span class="step step-rounded" tabindex="-1">
-            Step 3 - Expense Report
-          </span>
-        </div>
-
-        <form class="form" id="claim-report-form"></form>
+      <main class="main flex-row justify-content-center">
+        <h1 class="heading-1">About Us Page</h1>
       </main>
 
-      <footer class="footer flex-row flex-wrap justify-content-between">
+      <footer
+        class="footer bottom-fixed flex-row flex-wrap justify-content-between"
+      >
         <div class="avatar-container flex-row">
           <span class="text-bold text-enlarged">The Insurer</span>
           <img
@@ -151,20 +128,5 @@
         </div>
       </footer>
     </div>
-    <div class="modal-container is-hidden" id="modal"></div>
-    <div
-      class="spinner-container is-hidden"
-      id="spinner"
-      role="progressbar"
-      aria-label="Updating data, do not refresh the page"
-      aria-valuetext="Working…"
-      aria-live="assertive"
-      aria-valuemin="0"
-      aria-valuemax="100"
-    >
-      <img src="../images/spinner.svg" alt="" />
-    </div>
-
-    <script src="../scripts/main.js"></script>
   </body>
 </html>
