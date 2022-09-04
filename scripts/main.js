@@ -177,7 +177,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div
       class="toast position-fixed"
       id="toast"
-      role="status"
+      role="alert"
       aria-label="Success message"
     >
       <button
@@ -722,11 +722,15 @@ window.addEventListener('DOMContentLoaded', () => {
       createToastSuccessMessage(toastMessageIndex)
     );
 
-    const toastCloseButton = getById('toast-close-button');
-    toastCloseButton.addEventListener('click', () => {
+    const hideToastMessage = () => {
       const toast = getById('toast');
       pageWrapper.removeChild(toast);
-    });
+    };
+
+    const toastCloseButton = getById('toast-close-button');
+    toastCloseButton.addEventListener('click', hideToastMessage);
+
+    setTimeout(hideToastMessage, 20000);
   };
 
   const updateExpenseReportList = () => {
