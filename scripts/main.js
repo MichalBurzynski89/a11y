@@ -124,7 +124,7 @@ window.addEventListener('DOMContentLoaded', () => {
         <div class="form-control flex-column">
           <label for="expense-name" class="text-bold">
             Name (max length 50 characters)
-            <span title="This field is required">&#42;</span>
+            <span title="This field is required" aria-hidden="true">&#42;</span>
           </label>
           <input
             type="text"
@@ -144,7 +144,7 @@ window.addEventListener('DOMContentLoaded', () => {
         <div class="form-control flex-column">
           <label for="expense-price" class="text-bold">
             Price (between 1 and 1,000,000)
-            <span title="This field is required">&#42;</span>
+            <span title="This field is required" aria-hidden="true">&#42;</span>
           </label>
           <input
             type="number"
@@ -233,7 +233,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="first-name">
         First name
-        <span title="This field is required">&#42;</span>
+        <span title="This field is required" aria-hidden="true">&#42;</span>
       </label>
       <input type="text" id="first-name" name="first-name" required autocomplete="on" aria-errormessage="first-name-error" />
       <span id="first-name-error" class="error-message is-hidden">
@@ -243,7 +243,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="second-name">
         Second name
-        <span title="This field is required">&#42;</span>
+        <span title="This field is required" aria-hidden="true">&#42;</span>
       </label>
       <input type="text" id="second-name" name="second-name" required autocomplete="on" aria-errormessage="second-name-error" />
       <span id="second-name-error" class="error-message is-hidden">
@@ -253,7 +253,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="birthday">
         Birthday
-        <span title="This field is required">&#42;</span>
+        <span title="This field is required" aria-hidden="true">&#42;</span>
       </label>
       <input type="date" id="birthday" name="birthday" max="2021-12-31" lang="en-US" required aria-errormessage="birthday-error" />
       <span id="birthday-error" class="error-message is-hidden">
@@ -263,7 +263,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="phone-number">
         Phone number (in the format xxx xxx xxx)
-        <span title="This field is required">&#42;</span>
+        <span title="This field is required" aria-hidden="true">&#42;</span>
       </label>
       <input
         type="tel" id="phone-number" name="phone-number" required autocomplete="tel"
@@ -278,7 +278,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="email">
         Email (in the format &lt;your-username&gt;@pgs-soft.com)
-        <span title="This field is required">&#42;</span>
+        <span title="This field is required" aria-hidden="true">&#42;</span>
       </label>
       <input
         type="email" id="email" name="email" size="20" required autocomplete="email"
@@ -293,7 +293,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="policy-number">
         Policy number
-        <span title="This field is required">&#42;</span>
+        <span title="This field is required" aria-hidden="true">&#42;</span>
       </label>
       <input type="number" id="policy-number" name="policy-number" min="1" required autocomplete="on" aria-errormessage="policy-number-error" />
       <span id="policy-number-error" class="error-message is-hidden">
@@ -350,7 +350,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="country">
         Country
-        <span title="This field is required">&#42;</span>
+        <span title="This field is required" aria-hidden="true">&#42;</span>
       </label>
       <input type="text" id="country" name="country" required autocomplete="on" aria-errormessage="country-error" />
       <span id="country-error" class="error-message is-hidden">
@@ -360,7 +360,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="address">
         Address
-        <span title="This field is required">&#42;</span>
+        <span title="This field is required" aria-hidden="true">&#42;</span>
       </label>
       <input type="text" id="address" name="address" required autocomplete="on" aria-errormessage="address-error" />
       <span id="address-error" class="error-message is-hidden">
@@ -370,7 +370,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="date">
         Date
-        <span title="This field is required">&#42;</span>
+        <span title="This field is required" aria-hidden="true">&#42;</span>
       </label>
       <input
         type="date" id="date" name="date"
@@ -383,7 +383,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="description">
         Incident description (length between 30 and 300 characters inclusive)
-        <span title="This field is required">&#42;</span>
+        <span title="This field is required" aria-hidden="true">&#42;</span>
       </label>
       <textarea
         id="description" name="incident-description"
