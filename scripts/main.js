@@ -135,7 +135,11 @@ window.addEventListener('DOMContentLoaded', () => {
             value="${expenseItem.name}"
             required
             autocomplete="on"
+            aria-errormessage="expense-name-error"
           />
+          <span id="expense-name-error" class="error-message is-hidden">
+            Error: Enter a name that is no longer than 50 characters
+          </span>
         </div>
         <div class="form-control flex-column">
           <label for="expense-price" class="text-bold">
@@ -151,7 +155,11 @@ window.addEventListener('DOMContentLoaded', () => {
             value="${expenseItem.price}"
             required
             autocomplete="on"
+            aria-errormessage="expense-price-error"
           />
+          <span id="expense-price-error" class="error-message is-hidden">
+            Error: Enter a price from 1 to 1,000,000
+          </span>
         </div>
         <div class="form-buttons flex-row justify-content-center">
           <button type="button" class="btn btn-secondary" id="cancel-button">
@@ -227,21 +235,30 @@ window.addEventListener('DOMContentLoaded', () => {
         First name
         <span title="This field is required">&#42;</span>
       </label>
-      <input type="text" id="first-name" name="first-name" required autocomplete="on" />
+      <input type="text" id="first-name" name="first-name" required autocomplete="on" aria-errormessage="first-name-error" />
+      <span id="first-name-error" class="error-message is-hidden">
+        Error: First name is required
+      </span>
     </div>
     <div class="form-control flex-column">
       <label for="second-name">
         Second name
         <span title="This field is required">&#42;</span>
       </label>
-      <input type="text" id="second-name" name="second-name" required autocomplete="on" />
+      <input type="text" id="second-name" name="second-name" required autocomplete="on" aria-errormessage="second-name-error" />
+      <span id="second-name-error" class="error-message is-hidden">
+        Error: Second name is required
+      </span>
     </div>
     <div class="form-control flex-column">
       <label for="birthday">
         Birthday
         <span title="This field is required">&#42;</span>
       </label>
-      <input type="date" id="birthday" name="birthday" max="2021-12-31" lang="en-US" required />
+      <input type="date" id="birthday" name="birthday" max="2021-12-31" lang="en-US" required aria-errormessage="birthday-error" />
+      <span id="birthday-error" class="error-message is-hidden">
+        Error: Enter a date earlier than 01.01.2022
+      </span>
     </div>
     <div class="form-control flex-column">
       <label for="phone-number">
@@ -252,7 +269,11 @@ window.addEventListener('DOMContentLoaded', () => {
         type="tel" id="phone-number" name="phone-number" required autocomplete="tel"
         pattern="\\d{3}\\s\\d{3}\\s\\d{3}"
         title="Enter your phone number in the format xxx xxx xxx"
+        aria-errormessage="phone-number-error"
       />
+      <span id="phone-number-error" class="error-message is-hidden">
+        Error: Enter the phone number in the format: XXX XXX XXX
+      </span>
     </div>
     <div class="form-control flex-column">
       <label for="email">
@@ -263,14 +284,21 @@ window.addEventListener('DOMContentLoaded', () => {
         type="email" id="email" name="email" size="20" required autocomplete="email"
         pattern=".+@pgs-soft\\.com"
         title="Enter your email in the format <your-username>@pgs-soft.com"
+        aria-errormessage="email-error"
       />
+      <span id="email-error" class="error-message is-hidden">
+        Error: Enter the email address in the format <your-username>@pgs-soft.com
+      </span>
     </div>
     <div class="form-control flex-column">
       <label for="policy-number">
         Policy number
         <span title="This field is required">&#42;</span>
       </label>
-      <input type="number" id="policy-number" name="policy-number" min="1" required autocomplete="on" />
+      <input type="number" id="policy-number" name="policy-number" min="1" required autocomplete="on" aria-errormessage="policy-number-error" />
+      <span id="policy-number-error" class="error-message is-hidden">
+        Error: Enter a policy number equal to or greater than 1
+      </span>
     </div>
     <button type="submit" class="btn btn-primary" id="submit-button">
       Continue
@@ -324,14 +352,20 @@ window.addEventListener('DOMContentLoaded', () => {
         Country
         <span title="This field is required">&#42;</span>
       </label>
-      <input type="text" id="country" name="country" required autocomplete="on" />
+      <input type="text" id="country" name="country" required autocomplete="on" aria-errormessage="country-error" />
+      <span id="country-error" class="error-message is-hidden">
+        Error: Country is required
+      </span>
     </div>
     <div class="form-control flex-column">
       <label for="address">
         Address
         <span title="This field is required">&#42;</span>
       </label>
-      <input type="text" id="address" name="address" required autocomplete="on" />
+      <input type="text" id="address" name="address" required autocomplete="on" aria-errormessage="address-error" />
+      <span id="address-error" class="error-message is-hidden">
+        Error: Address is required
+      </span>
     </div>
     <div class="form-control flex-column">
       <label for="date">
@@ -340,8 +374,11 @@ window.addEventListener('DOMContentLoaded', () => {
       </label>
       <input
         type="date" id="date" name="date"
-        min="2022-09-01" lang="en-US" required
+        min="2022-09-01" lang="en-US" required aria-errormessage="date-error"
       />
+      <span id="date-error" class="error-message is-hidden">
+        Error: Enter a date greater than or equal to 01.09.2022
+      </span>
     </div>
     <div class="form-control flex-column">
       <label for="description">
@@ -353,7 +390,11 @@ window.addEventListener('DOMContentLoaded', () => {
         minlength="30" maxlength="600"
         rows="15" required
         autocomplete="on"
+        aria-errormessage="description-error"
         title="The description should be at least 30 characters long, but not more than 600"></textarea>
+      <span id="description-error" class="error-message is-hidden">
+        Error: Enter a description that is not shorter than 30 characters and not longer than 600 characters
+      </span>
     </div>
     <div class="form-buttons flex-column">
       <button type="button" class="btn btn-secondary" id="return-button">
@@ -440,12 +481,46 @@ window.addEventListener('DOMContentLoaded', () => {
       const isFormValid = form.reportValidity();
 
       if (!isFormValid) {
+        showErrorMessagesForInvalidFormControls();
         return;
       }
 
       renderForm(currentStep + 1);
     });
   };
+
+  const showErrorMessagesForInvalidFormControls = () => {
+    const invalidFormControls = [
+      ...document.querySelectorAll('input:invalid, textarea:invalid'),
+    ];
+    const errorMessagesToDisplay = [
+      ...document.querySelectorAll(
+        'input:invalid + .error-message, textarea:invalid + .error-message'
+      ),
+    ];
+
+    invalidFormControls.forEach((invalidFormControl) =>
+      invalidFormControl.setAttribute('aria-invalid', true)
+    );
+    errorMessagesToDisplay.forEach((errorMessage) =>
+      errorMessage.classList.remove('is-hidden')
+    );
+  };
+
+  const startListeningForChangesToFormControlsToClearPotentialErrorMessages =
+    () => {
+      const formControls = [...document.querySelectorAll('input, textarea')];
+      formControls.forEach((control) =>
+        control.addEventListener('input', function () {
+          const isValid = this.checkValidity();
+
+          if (isValid) {
+            this.setAttribute('aria-invalid', false);
+            this.nextElementSibling.classList.add('is-hidden');
+          }
+        })
+      );
+    };
 
   const setCurrentStep = (currentStep) => {
     const steps = document.querySelectorAll('.progress-indicator .step');
@@ -512,6 +587,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const actionButton = getById('action-button');
 
     toggleFocusabilityOfItemsOutsideOfDialogBox();
+    startListeningForChangesToFormControlsToClearPotentialErrorMessages();
 
     dialogCloseButton.focus();
     dialog.addEventListener(
@@ -533,6 +609,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const isFormValid = dialogForm.reportValidity();
 
         if (!isFormValid) {
+          showErrorMessagesForInvalidFormControls();
           return;
         }
       }
@@ -692,6 +769,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     updateInputValuesAndAttachChangeEventListeners();
+    startListeningForChangesToFormControlsToClearPotentialErrorMessages();
     attachClickEventListenersToButtons(claimReportForm, step);
     setCurrentStep(step);
 

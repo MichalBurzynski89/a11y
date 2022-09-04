@@ -599,6 +599,23 @@ body.is-loading {
   margin-right: 1rem;
 }
 
+/*** INVALID FORM CONTROLS ***/
+
+input:invalid,
+textarea:invalid {
+  border-color: red !important;
+}
+
+input:invalid + .error-message,
+textarea:invalid + .error-message {
+  color: red;
+  margin-top: 0.5rem;
+}
+
+.error-message.is-hidden {
+  display: none;
+}
+
 /*** TOAST ***/
 
 @keyframes toast-animation-mobile {
