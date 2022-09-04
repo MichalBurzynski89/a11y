@@ -75,6 +75,7 @@ window.addEventListener('DOMContentLoaded', () => {
               aria-haspopup="dialog"
             >
               <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+              <span style="display: none;">Remove</span>
             </button>
             <button
               type="button"
@@ -83,6 +84,7 @@ window.addEventListener('DOMContentLoaded', () => {
               aria-haspopup="dialog"
             >
               <i class="fa-solid fa-pen" aria-hidden="true"></i>
+              <span style="display: none;">Edit</span>
             </button>
           </div>
         </li>`
@@ -113,6 +115,7 @@ window.addEventListener('DOMContentLoaded', () => {
         aria-label="Close the dialog"
       >
         <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        <span style="display: none;">Close</span>
       </button>
       <h2 class="dialog-heading heading-2 text-center" id="dialog-title">
         ${expenseItem.id !== null ? 'Edit' : 'New'} Expense
@@ -121,6 +124,7 @@ window.addEventListener('DOMContentLoaded', () => {
         <div class="form-control flex-column">
           <label for="expense-name" class="text-bold">
             Name (max length 50 characters)
+            <span title="This field is required">&#42;</span>
           </label>
           <input
             type="text"
@@ -130,11 +134,13 @@ window.addEventListener('DOMContentLoaded', () => {
             title="Please enter a name that is no longer than 50 characters"
             value="${expenseItem.name}"
             required
+            autocomplete="on"
           />
         </div>
         <div class="form-control flex-column">
           <label for="expense-price" class="text-bold">
             Price (between 1 and 1,000,000)
+            <span title="This field is required">&#42;</span>
           </label>
           <input
             type="number"
@@ -144,6 +150,7 @@ window.addEventListener('DOMContentLoaded', () => {
             title="The price should be between 1 and 1,000,000"
             value="${expenseItem.price}"
             required
+            autocomplete="on"
           />
         </div>
         <div class="form-buttons flex-row justify-content-center">
@@ -151,7 +158,7 @@ window.addEventListener('DOMContentLoaded', () => {
             Cancel
           </button>
           <button type="submit" class="btn btn-primary" id="action-button">
-            ${expenseItem.id !== null ? 'Edit' : 'Add'}
+            ${expenseItem.id !== null ? 'Save' : 'Add'}
           </button>
         </div>
       </form>
@@ -172,6 +179,7 @@ window.addEventListener('DOMContentLoaded', () => {
         aria-label="Close the toast message"
       >
         <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        <span style="display: none;">Close</span>
       </button>
       <div class="toast-content flex-row justify-content-between">
         <i class="fa-solid fa-circle-check text-white" aria-hidden="true"></i>
@@ -197,6 +205,7 @@ window.addEventListener('DOMContentLoaded', () => {
         aria-label="Close the dialog"
       >
         <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        <span style="display: none;">Close</span>
       </button>
       <h2 class="dialog-heading heading-2 text-center" id="dialog-title">
         Are you sure you want to delete this expense?
@@ -216,37 +225,42 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="first-name">
         First name
+        <span title="This field is required">&#42;</span>
       </label>
-      <input type="text" id="first-name" name="first-name" required />
+      <input type="text" id="first-name" name="first-name" required autocomplete="on" />
     </div>
     <div class="form-control flex-column">
       <label for="second-name">
         Second name
+        <span title="This field is required">&#42;</span>
       </label>
-      <input type="text" id="second-name" name="second-name" required />
+      <input type="text" id="second-name" name="second-name" required autocomplete="on" />
     </div>
     <div class="form-control flex-column">
       <label for="birthday">
         Birthday
+        <span title="This field is required">&#42;</span>
       </label>
       <input type="date" id="birthday" name="birthday" max="2021-12-31" lang="en-US" required />
     </div>
     <div class="form-control flex-column">
       <label for="phone-number">
-        Phone number (in the format xxx-xxx-xxx)
+        Phone number (in the format xxx xxx xxx)
+        <span title="This field is required">&#42;</span>
       </label>
       <input
-        type="tel" id="phone-number" name="phone-number" required
-        pattern="\\d{3}-\\d{3}-\\d{3}"
-        title="Enter your phone number in the format xxx-xxx-xxx"
+        type="tel" id="phone-number" name="phone-number" required autocomplete="tel"
+        pattern="\\d{3}\\s\\d{3}\\s\\d{3}"
+        title="Enter your phone number in the format xxx xxx xxx"
       />
     </div>
     <div class="form-control flex-column">
       <label for="email">
         Email (in the format &lt;your-username&gt;@pgs-soft.com)
+        <span title="This field is required">&#42;</span>
       </label>
       <input
-        type="email" id="email" name="email" size="20" required
+        type="email" id="email" name="email" size="20" required autocomplete="email"
         pattern=".+@pgs-soft\\.com"
         title="Enter your email in the format <your-username>@pgs-soft.com"
       />
@@ -254,8 +268,9 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="policy-number">
         Policy number
+        <span title="This field is required">&#42;</span>
       </label>
-      <input type="number" id="policy-number" name="policy-number" min="1" required />
+      <input type="number" id="policy-number" name="policy-number" min="1" required autocomplete="on" />
     </div>
     <button type="submit" class="btn btn-primary" id="submit-button">
       Continue
@@ -307,18 +322,21 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="country">
         Country
+        <span title="This field is required">&#42;</span>
       </label>
-      <input type="text" id="country" name="country" required />
+      <input type="text" id="country" name="country" required autocomplete="on" />
     </div>
     <div class="form-control flex-column">
       <label for="address">
         Address
+        <span title="This field is required">&#42;</span>
       </label>
-      <input type="text" id="address" name="address" required />
+      <input type="text" id="address" name="address" required autocomplete="on" />
     </div>
     <div class="form-control flex-column">
       <label for="date">
         Date
+        <span title="This field is required">&#42;</span>
       </label>
       <input
         type="date" id="date" name="date"
@@ -328,11 +346,13 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="form-control flex-column">
       <label for="description">
         Incident description (length between 30 and 300 characters inclusive)
+        <span title="This field is required">&#42;</span>
       </label>
       <textarea
         id="description" name="incident-description"
         minlength="30" maxlength="600"
         rows="15" required
+        autocomplete="on"
         title="The description should be at least 30 characters long, but not more than 600"></textarea>
     </div>
     <div class="form-buttons flex-column">
